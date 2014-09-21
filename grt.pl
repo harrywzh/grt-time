@@ -17,6 +17,7 @@ my @out;
 
 my $period = "$season-All-$day";
 
+#Read trips file into a hash for easy reference later on
 open (my $TRIPS, '<', $trip_path)
 		or die "ERROR Can't open file, $!";
 	while (my $line = <$TRIPS>) {
@@ -30,11 +31,14 @@ close $TRIPS;
 	
 my %out;
 	
-print "stop is $stopid \n";
+print "Selected stop is $stopid \n";
+
+#Get the trip ids for given stop
 open(my $STOPS, '<', $stop_path) 
 	or die "ERROR Can't open file, $!";
 while (my $line = <$STOPS>){
-	#print $line;
+	
+#Find all trips at that stop, and check if trip is a valid (date/type, etc)
 	if ($line =~ /^(\d+),$timeregex,($timeregex),($stopid),/){
 		if (exists($trips{$1})){
 			#print "$2 $1 $3 $trips{$1}[3] $trips{$1}[5]\n";			
