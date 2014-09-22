@@ -11,9 +11,6 @@ my $stop_path = 'data/stop_times.txt';
 my $trip_path = 'data/trips.txt';
 my $season = '14FALL';
 
-my $debug = 0;
-
-
 my $stopid;
 my $day;
 my $timeregex = '\d\d:\d\d:\d\d';
@@ -48,16 +45,17 @@ open(my $STOPS, '<', $stop_path)
 while (my $line = <$STOPS>){
 	
 #Find all trips at that stop, and check if trip is a valid (date/type, etc)
-#Using regex
+#Extract all data using regex
 	if ($line =~ /^(\d+),$timeregex,($timeregex),($stopid),/){
 		if (exists($trips{$1})){
 			my $str = "$2 $3 $trips{$1}[3]";
-			$str .= $1 if $debug;
+			#$str .= $1
 			push(@out, $str);
 			#print $out[0];
 		}
 	}
 }
+
 
 #Sort output by time
 #Timestamp respects ASCII order, since GTFS defines times past midnight as time+24hr
@@ -66,6 +64,8 @@ foreach (@sortedout){
 	print "$_\n";
 }
 close ($STOPS);
+
+
 
 #Adds exceptions for trips only on certain days
 sub DayException{ 
@@ -77,6 +77,7 @@ sub DayException{
 	return "";
 }
 
+#Get and check command line arguments
 sub GetInput{ 
 	if ($ARGV[0] && $ARGV[1] && $ARGV[1] =~ /\d\d\d\d/ && $ARGV[0] =~ /(Weekday|Saturday|Sunday)/){
 		
@@ -89,4 +90,9 @@ sub GetInput{
 		print "Need parameters - DAYOFWEEK(Weekday|Saturday|Sunday) STOPID(xxxx) \n";
 		exit;
 	}
+}
 
+#TODO
+#-Dynamic column header search to account for different source data order
+#-Better formatting/printable output
+#-Search by time range
