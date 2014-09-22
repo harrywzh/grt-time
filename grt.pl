@@ -1,10 +1,16 @@
 #!/usr/local/bin/perl 
+
+#Harry Zihui Wang
+#harrywzh
+#GRT Stop Combined Schedule Script
+
 use strict;
 use warnings;
 
 my $stop_path = 'data/stop_times.txt';
 my $trip_path = 'data/trips.txt';
 my $season = '14FALL';
+
 my $debug = 0;
 
 
@@ -29,14 +35,14 @@ open (my $TRIPS, '<', $trip_path)
 			$trips{$2}[3] .= &DayException($1) if $1;
 		}
 	}
-close $TRIPS;
-	
+close $TRIPS;	
 my %out;
 	
 print "Selected stop is $stopid \n";
 
 #Get the trip ids for given stop
 #trip ids assumed to be unique
+
 open(my $STOPS, '<', $stop_path) 
 	or die "ERROR Can't open file, $!";
 while (my $line = <$STOPS>){
@@ -51,13 +57,6 @@ while (my $line = <$STOPS>){
 			#print $out[0];
 		}
 	}
-	
-	
-	#my @stopdata = split(/,/, $_);
-	#if ($stopdata[3] == $stopid){
-	#	}
-	
-
 }
 
 #Sort output by time
@@ -77,6 +76,7 @@ sub DayException{
 	return " [MTWH]" if ($str eq '1111000');
 	return "";
 }
+
 sub GetInput{ 
 	if ($ARGV[0] && $ARGV[1] && $ARGV[1] =~ /\d\d\d\d/ && $ARGV[0] =~ /(Weekday|Saturday|Sunday)/){
 		
@@ -85,11 +85,8 @@ sub GetInput{
 	#	print "Please enter stop number\n";
 		$day = $ARGV[0];
 		$stopid = $ARGV[1];
-	#if ($ARGV[0] && $ARGV[1])
-		#$stopid = ($ARGV[0])? $ARGV[0] : chomp(<STDIN>);
-		
 	} else {
 		print "Need parameters - DAYOFWEEK(Weekday|Saturday|Sunday) STOPID(xxxx) \n";
 		exit;
 	}
-}
+
