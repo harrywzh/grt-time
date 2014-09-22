@@ -1,1 +1,5 @@
 GRT consolidated schedules project
+
+A script that takes the Grand River Transit GTFS data and generates a bus schedule for all routes at a given bus stop.
+
+I originally manually made a combined schedule for my home stop by copying from the GRT website, but realized since each stop was different, and so was each day of the week, while the data was static for 4 months, this would be perfect for a script to do.

@@ -21,7 +21,7 @@ my @out;
 #Build string for getting season
 my $period = "$season-All-$day";
 
-#Read trips file into a hash for easy reference later on
+#Read trips file into a hash for easy reference later on as each bus-time must look up
 open (my $TRIPS, '<', $trip_path)
 		or die "ERROR Can't open file, $!";
 	while (my $line = <$TRIPS>) {
@@ -33,9 +33,8 @@ open (my $TRIPS, '<', $trip_path)
 		}
 	}
 close $TRIPS;	
-my %out;
 	
-print "Selected stop is $stopid \n";
+print "Selected stop is $stopid for $day\n";
 
 #Get the trip ids for given stop
 #trip ids assumed to be unique
